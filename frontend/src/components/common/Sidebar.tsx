@@ -22,9 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, instal
   return (
     <aside className="sidebar-container">
       <div className="brand" onClick={onBackToLanding} style={{ cursor: onBackToLanding ? "pointer" : "default" }}>
-        <div className="brand-icon">
-          <Terminal size={22} color="#fff" />
-        </div>
+        <img src="/logo.png" alt="DevForge Logo" style={{ width: "38px", height: "38px", borderRadius: "8px", objectFit: "cover" }} />
         <div className="brand-text">
           <h2>DevForge</h2>
           <span className="version">v1.0.0</span>

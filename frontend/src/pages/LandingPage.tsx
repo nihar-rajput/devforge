@@ -18,7 +18,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp, onOpenCusto
       {/* Top Header Navigation */}
       <header className="landing-nav">
         <div className="nav-logo">
-          <span className="logo-icon">⚡</span>
+          <img src="/logo.png" alt="DevForge Logo" style={{ width: "32px", height: "32px", borderRadius: "8px", objectFit: "cover" }} />
           <span className="logo-text">DevForge</span>
           <span className="logo-badge">v1.0.0</span>
         </div>

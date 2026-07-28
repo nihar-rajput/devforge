@@ -93,7 +93,7 @@ export const CustomBundlePage: React.FC<CustomBundlePageProps> = ({ onBackToLand
       {/* Navigation Header */}
       <header className="landing-nav">
         <div className="nav-logo" onClick={onBackToLanding} style={{ cursor: "pointer" }}>
-          <span className="logo-icon">⚡</span>
+          <img src="/logo.png" alt="DevForge Logo" style={{ width: "32px", height: "32px", borderRadius: "8px", objectFit: "cover" }} />
           <span className="logo-text">DevForge</span>
           <span className="logo-badge">Custom Stack Builder</span>
         </div>
