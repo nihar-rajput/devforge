@@ -2,6 +2,9 @@ import React from "react";
 import { HeroSection } from "../components/landing/HeroSection";
 import { StackWizardSection } from "../components/landing/StackWizardSection";
 import { PackageCatalogSection } from "../components/landing/PackageCatalogSection";
+import { ComparisonSection } from "../components/landing/ComparisonSection";
+import { FaqSection } from "../components/landing/FaqSection";
+import { HealthCalculatorSection } from "../components/landing/HealthCalculatorSection";
 import { AdBanner } from "../components/landing/AdBanner";
 
 interface LandingPageProps {
@@ -26,7 +29,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp, onOpenCusto
             </button>
           )}
           <a href="#wizard" className="nav-link">Stack Wizard</a>
+          <a href="#health-calc" className="nav-link">Health Audit</a>
+          <a href="#comparison" className="nav-link">Comparison</a>
           <a href="#catalog" className="nav-link">36 Tools Catalog</a>
+          <a href="#faq" className="nav-link">FAQ</a>
           <a href="https://github.com/nihar-rajput/devforge" target="_blank" rel="noopener noreferrer" className="nav-link">GitHub</a>
           {onOpenApp && (
             <button className="nav-app-btn" onClick={onOpenApp}>
@@ -49,14 +55,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp, onOpenCusto
         <StackWizardSection />
       </div>
 
+      {/* Live Health Audit Calculator Section */}
+      <div id="health-calc">
+        <HealthCalculatorSection />
+      </div>
+
       {/* Middle Sponsored Ad Banner */}
       <div className="landing-ad-wrapper">
         <AdBanner type="sponsor" />
       </div>
 
+      {/* Comparison Section */}
+      <div id="comparison">
+        <ComparisonSection />
+      </div>
+
       {/* Package Catalog Grid Section */}
       <div id="catalog">
         <PackageCatalogSection />
+      </div>
+
+      {/* FAQ Section */}
+      <div id="faq">
+        <FaqSection />
       </div>
 
       {/* Footer */}
