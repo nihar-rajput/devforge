@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  devforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devforge_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEVFORGE_ENV=production
+      - DEVFORGE_HOST=0.0.0.0
+      - DEVFORGE_PORT=8000
+    volumes:
+      - devforge_data:/app/backend/data
+      - devforge_cache:/app/backend/cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  devforge_data:
+  devforge_cache:
