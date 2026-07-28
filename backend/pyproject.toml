@@ -38,6 +38,9 @@ dependencies = [
     "httpx>=0.28.0",
 ]
 
+[project.scripts]
+devforge = "src.cli.main:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.0",
