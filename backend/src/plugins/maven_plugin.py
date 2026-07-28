@@ -43,7 +43,7 @@ class MavenPlugin(BasePlugin):
     async def get_download_info(self, version: Version) -> DownloadInfo:
         ver_str = str(version)
         return DownloadInfo(
-            url=f"https://dlcdn.apache.org/maven/maven-3/{ver_str}/binaries/apache-maven-{ver_str}-bin.zip",
+            url=f"https://archive.apache.org/dist/maven/maven-3/{ver_str}/binaries/apache-maven-{ver_str}-bin.zip",
             file_name=f"apache-maven-{ver_str}-bin.zip",
             file_size=FileSize.from_megabytes(9.8),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),

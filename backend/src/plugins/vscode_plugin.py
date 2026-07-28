@@ -41,9 +41,8 @@ class VSCodePlugin(BasePlugin):
         return Version.parse("1.86.0")
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
-        url = "https://code.visualstudio.com/sha/download?build=stable&platform=win32-x64-user"
         return DownloadInfo(
-            url=url,
+            url="https://update.code.visualstudio.com/latest/win32-x64-user/stable",
             file_name="VSCodeUserSetup-x64.exe",
             file_size=FileSize.from_megabytes(90.0),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),

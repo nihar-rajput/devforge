@@ -42,8 +42,8 @@ class JupyterPlugin(BasePlugin):
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
         return DownloadInfo(
-            url="https://github.com/jupyterlab/jupyterlab-desktop/releases/download/v4.1.2-1/JupyterLab-Setup-Windows.exe",
-            file_name="JupyterLab-Setup-Windows.exe",
+            url="https://github.com/jupyterlab/jupyterlab-desktop/releases/download/v4.1.2-1/JupyterLab-Setup-Windows-x64.exe",
+            file_name="JupyterLab-Setup-Windows-x64.exe",
             file_size=FileSize.from_megabytes(180.0),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
             installer_type=InstallerType.EXE,

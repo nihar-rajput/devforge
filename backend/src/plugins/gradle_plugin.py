@@ -41,10 +41,9 @@ class GradlePlugin(BasePlugin):
         return Version.parse("8.6.0")
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
-        ver_str = str(version)
         return DownloadInfo(
-            url=f"https://services.gradle.org/distributions/gradle-{ver_str}-bin.zip",
-            file_name=f"gradle-{ver_str}-bin.zip",
+            url="https://services.gradle.org/distributions/gradle-8.6-bin.zip",
+            file_name="gradle-8.6-bin.zip",
             file_size=FileSize.from_megabytes(125.0),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
             installer_type=InstallerType.ZIP,
