@@ -128,8 +128,22 @@ export const api = {
     log_snippet?: string;
     user_consent: boolean;
   }) =>
-    request<{ success: boolean; message: string; report_id: string }>("/telemetry/report", {
+  // Offline Bundle Export
+  exportOfflineBundle: async (packages: string[], bundleName?: string) => {
+    const res = await fetch(`${API_BASE}/environments/export-bundle`, {
       method: "POST",
-      body: JSON.stringify(payload),
-    }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ packages, bundle_name: bundleName }),
+    });
+    if (!res.ok) throw new Error(`Export failed (${res.status})`);
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${bundleName || "DevForge_Offline_Bundle"}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  },
 };

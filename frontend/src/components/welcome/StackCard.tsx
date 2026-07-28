@@ -1,6 +1,6 @@
-import React from "react";
-import { Download, Check } from "lucide-react";
-import { StackDefinition } from "../../api/client";
+import React, { useState } from "react";
+import { Download, PackageCheck, Archive } from "lucide-react";
+import { StackDefinition, api } from "../../api/client";
 
 interface StackCardProps {
   stack: StackDefinition;
@@ -9,6 +9,19 @@ interface StackCardProps {
 }
 
 export const StackCard: React.FC<StackCardProps> = ({ stack, onInstall, isInstalling = false }) => {
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportOffline = async () => {
+    setExporting(true);
+    try {
+      await api.exportOfflineBundle(stack.packages, `DevForge_Offline_${stack.id}`);
+    } catch (e) {
+      console.error("Export offline bundle error:", e);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <div className="glass-card stack-card">
       <div className="stack-header">
@@ -30,14 +43,26 @@ export const StackCard: React.FC<StackCardProps> = ({ stack, onInstall, isInstal
         </div>
       </div>
 
-      <button
-        className="btn btn-primary stack-action"
-        onClick={() => onInstall(stack)}
-        disabled={isInstalling}
-      >
-        <Download size={16} />
-        <span>1-Click Install Environment</span>
-      </button>
+      <div className="stack-actions-group">
+        <button
+          className="btn btn-primary stack-action"
+          onClick={() => onInstall(stack)}
+          disabled={isInstalling}
+        >
+          <Download size={16} />
+          <span>1-Click Online Install</span>
+        </button>
+
+        <button
+          className="btn btn-secondary offline-action"
+          onClick={handleExportOffline}
+          disabled={exporting}
+          title="Download compressed zip archive for offline computers"
+        >
+          <Archive size={15} />
+          <span>{exporting ? "Packaging..." : "Offline Zip Bundle"}</span>
+        </button>
+      </div>
 
       <style>{`
         .stack-card {
@@ -95,10 +120,17 @@ export const StackCard: React.FC<StackCardProps> = ({ stack, onInstall, isInstal
           color: var(--accent-cyan);
           font-family: var(--font-mono);
         }
-        .stack-action {
-          width: 100%;
-          justify-content: center;
+        .stack-actions-group {
+          display: flex;
+          gap: 0.5rem;
           margin-top: 0.5rem;
+        }
+        .stack-action {
+          flex: 1;
+          justify-content: center;
+        }
+        .offline-action {
+          justify-content: center;
         }
       `}</style>
     </div>
