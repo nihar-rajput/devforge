@@ -116,4 +116,20 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ profile_id: profileId }),
     }),
+
+  // Telemetry Error Reporting
+  sendErrorReport: (payload: {
+    app_version?: string;
+    timestamp: string;
+    error_type: string;
+    package_id?: string;
+    os_info: string;
+    error_message: string;
+    log_snippet?: string;
+    user_consent: boolean;
+  }) =>
+    request<{ success: boolean; message: string; report_id: string }>("/telemetry/report", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };

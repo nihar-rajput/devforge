@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.dependencies import get_event_bus, get_plugin_manager
 from src.api.middleware.error_handler import register_error_handlers
 from src.api.middleware.request_logger import RequestLoggerMiddleware
-from src.api.routes import environments, installations, packages, system
+from src.api.routes import environments, installations, packages, system, telemetry
 from src.api.websocket.connection_manager import WebSocketConnectionManager
 from src.config.constants import API_V1_PREFIX, APP_NAME, APP_VERSION
 from src.config.logging_config import configure_logging
@@ -90,6 +90,7 @@ app.include_router(packages.router, prefix=API_V1_PREFIX)
 app.include_router(installations.router, prefix=API_V1_PREFIX)
 app.include_router(system.router, prefix=API_V1_PREFIX)
 app.include_router(environments.router, prefix=API_V1_PREFIX)
+app.include_router(telemetry.router, prefix=API_V1_PREFIX)
 
 
 @app.get("/")
