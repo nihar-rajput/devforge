@@ -128,6 +128,11 @@ export const api = {
     log_snippet?: string;
     user_consent: boolean;
   }) =>
+    request<{ success: boolean; report_id: string; sanitized_log?: string }>("/telemetry/report", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
   // Offline Bundle Export
   exportOfflineBundle: async (packages: string[], bundleName?: string) => {
     const res = await fetch(`${API_BASE}/environments/export-bundle`, {
