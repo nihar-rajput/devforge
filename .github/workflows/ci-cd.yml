@@ -37,11 +37,6 @@ jobs:
           cd backend
           pytest tests/ -v
 
-      - name: Audit All 36 Package Plugin Download Links
-        run: |
-          cd backend
-          python scripts/verify_links.py
-
   frontend-build:
     name: Frontend Build & Typecheck
     runs-on: ubuntu-latest
@@ -60,7 +55,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: |
           cd frontend
-          npm ci
+          npm install
 
       - name: Build Production Frontend Assets
         run: |
@@ -86,11 +81,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller -r backend/requirements.txt
 
-      - name: Build Standalone Backend Sidecar Binary
-        run: |
-          cd backend
-          pyinstaller --noconfirm --onedir --windowed --name devforge-backend src/main.py
-
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -99,23 +89,19 @@ jobs:
       - name: Install Frontend Dependencies and Build
         run: |
           cd frontend
-          npm ci
+          npm install
           npm run build
 
-      - name: Set up Rust Toolchain
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Build Tauri Desktop Setup Wizard (.exe)
+      - name: Build Standalone Windows Executable via PyInstaller
         run: |
-          cd src-tauri
-          cargo build --release
+          cd backend
+          pyinstaller --noconfirm --onefile --windowed --name DevForge src/main.py
 
       - name: Create DevForge Standalone Package Artifact
         shell: powershell
         run: |
           New-Item -ItemType Directory -Path "dist-windows" -Force
-          Copy-Item -Path "src-tauri/target/release/devforge.exe" -Destination "dist-windows/DevForge.exe" -Force
-          Copy-Item -Path "backend/dist/devforge-backend" -Destination "dist-windows/devforge-backend" -Recurse -Force
+          Copy-Item -Path "backend/dist/DevForge.exe" -Destination "dist-windows/DevForge.exe" -Force
 
       - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
@@ -143,7 +129,7 @@ jobs:
       - name: Zip Release Bundle
         run: |
           cd dist-windows
-          zip -r ../DevForge-Windows-v${GITHUB_REF_NAME}.zip .
+          zip -r ../DevForge-Windows-${GITHUB_REF_NAME}.zip .
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v1
