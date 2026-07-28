@@ -1,0 +1,51 @@
+/* DevForge Design System — CSS Tokens & Theme Variables */
+:root {
+  /* Color Palette — HSL Dark Mode */
+  --bg-dark: hsl(224, 25%, 8%);
+  --bg-card: hsla(224, 25%, 12%, 0.7);
+  --bg-card-hover: hsla(224, 25%, 16%, 0.85);
+  --bg-surface: hsla(224, 25%, 14%, 0.6);
+  --bg-terminal: hsl(224, 30%, 6%);
+
+  /* Border & Glass Effects */
+  --border-glass: hsla(220, 20%, 30%, 0.25);
+  --border-glass-strong: hsla(220, 30%, 45%, 0.4);
+  --glass-backdrop: blur(16px) saturate(180%);
+
+  /* Text Colors */
+  --text-primary: hsl(210, 40%, 98%);
+  --text-secondary: hsl(215, 20%, 70%);
+  --text-muted: hsl(215, 15%, 50%);
+
+  /* Brand Accents & Gradients */
+  --accent-cyan: hsl(190, 90%, 50%);
+  --accent-blue: hsl(215, 90%, 60%);
+  --accent-purple: hsl(265, 85%, 65%);
+  --accent-emerald: hsl(155, 85%, 45%);
+  --accent-amber: hsl(38, 92%, 50%);
+  --accent-rose: hsl(350, 89%, 60%);
+
+  --gradient-brand: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  --gradient-card: linear-gradient(135deg, hsla(224, 25%, 14%, 0.8), hsla(224, 25%, 10%, 0.6));
+  --gradient-glow: radial-gradient(circle, hsla(190, 90%, 50%, 0.15) 0%, transparent 70%);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 30px hsla(190, 90%, 50%, 0.25);
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', var(--font-sans);
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
