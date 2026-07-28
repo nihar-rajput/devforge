@@ -4,16 +4,27 @@ System REST API endpoints.
 
 from __future__ import annotations
 
+from typing import Dict, Any
 from fastapi import APIRouter, Depends
 
-from src.api.dependencies import get_health_service
+from src.api.dependencies import get_health_service, get_plugin_manager
 from src.api.schemas.system_schemas import GPUInfoResponse, HealthSummaryResponse, SystemInfoResponse
 from src.detector.software_detector import DefaultSoftwareDetector
 from src.services.health_service import HealthService
+from src.services.tray_monitor_service import TrayMonitorService
+from src.package_manager.plugin_manager import PluginManager
 
 router = APIRouter(prefix="/system", tags=["System"])
 
 _detector = DefaultSoftwareDetector()
+_tray_monitor: TrayMonitorService | None = None
+
+
+def get_tray_monitor(plugin_mgr: PluginManager = Depends(get_plugin_manager)) -> TrayMonitorService:
+    global _tray_monitor
+    if _tray_monitor is None:
+        _tray_monitor = TrayMonitorService(plugin_manager=plugin_mgr)
+    return _tray_monitor
 
 
 @router.get("/info", response_model=SystemInfoResponse)
@@ -55,3 +66,19 @@ async def get_health_summary(
         unhealthy_count=res["unhealthy_count"],
         total_installed=res["total_installed"],
     )
+
+
+@router.get("/monitor/status")
+async def get_monitor_status(
+    monitor: TrayMonitorService = Depends(get_tray_monitor),
+) -> Dict[str, Any]:
+    """Get status of background health monitor worker."""
+    return monitor.get_status()
+
+
+@router.post("/monitor/trigger")
+async def trigger_health_audit(
+    monitor: TrayMonitorService = Depends(get_tray_monitor),
+) -> Dict[str, Any]:
+    """Trigger an immediate background health audit."""
+    return await monitor.run_health_audit()
