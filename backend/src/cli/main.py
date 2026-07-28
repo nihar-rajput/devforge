@@ -94,7 +94,8 @@ async def cmd_export_async(args: argparse.Namespace, pm: PluginManager) -> int:
 
     print(f"\n[INFO] Creating custom offline bundle for {len(package_ids)} packages: {package_ids}...")
     exporter = BundleExporterService(plugin_manager=pm)
-    zip_path = await exporter.create_offline_bundle(package_ids=package_ids, bundle_name=args.name)
+    bundle_name = args.output or args.name or "DevForge_Offline_Bundle"
+    zip_path = await exporter.create_offline_bundle(package_ids=package_ids, bundle_name=bundle_name)
 
     print("\n==================================================")
     print(" [SUCCESS] Custom Offline Zip Bundle Created!")
@@ -127,6 +128,7 @@ async def main_async(argv: List[str] | None = None) -> int:
     export_parser = subparsers.add_parser("export", help="Export custom offline installer .zip bundle")
     export_parser.add_argument("--packages", type=str, required=True, help="Comma-separated package IDs (e.g. python,git,vscode)")
     export_parser.add_argument("--name", type=str, help="Custom name for the zip bundle")
+    export_parser.add_argument("--output", type=str, help="Output destination zip file path")
 
     args = parser.parse_args(argv)
 
