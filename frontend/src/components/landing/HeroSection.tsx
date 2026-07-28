@@ -7,9 +7,9 @@ export const HeroSection: React.FC = () => {
   const cliCommand = "devforge export --packages python,git,vscode --output DevStack";
 
   const downloadUrls = {
-    windows: "https://github.com/nihar-rajput/devforge/releases/download/v1.0.0/DevForge-Windows-v1.0.0.zip",
-    macos: "https://github.com/nihar-rajput/devforge/releases/latest",
-    linux: "https://github.com/nihar-rajput/devforge/releases/latest",
+    windows: "https://github.com/nihar-rajput/devforge/releases",
+    macos: "https://github.com/nihar-rajput/devforge/releases",
+    linux: "https://github.com/nihar-rajput/devforge/releases",
   };
 
   const copyToClipboard = () => {
@@ -68,16 +68,7 @@ export const HeroSection: React.FC = () => {
             className="primary-download-btn"
           >
             <span className="dl-icon">⬇</span>
-            Download {selectedOS.toUpperCase()} Setup Executable (v1.0.0)
-          </a>
-          <a
-            href="https://github.com/nihar-rajput/devforge/releases/latest"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="primary-download-btn"
-            style={{ background: "hsla(220, 20%, 20%, 0.8)", border: "1px solid var(--border-glass)" }}
-          >
-            ⭐ View GitHub Releases
+            Download {selectedOS.toUpperCase()} Setup (v1.0.0)
           </a>
         </div>
       </div>
