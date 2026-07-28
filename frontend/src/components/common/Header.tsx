@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, RefreshCw, Cpu } from "lucide-react";
+import { Search, RefreshCw, FolderPlus } from "lucide-react";
 import { HealthBadge } from "./HealthBadge";
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   onRefresh?: () => void;
+  onOpenScaffolder?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
   onRefresh,
+  onOpenScaffolder,
 }) => {
   return (
     <header className="header-container">
@@ -30,6 +32,12 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="header-actions">
+        {onOpenScaffolder && (
+          <button className="btn btn-secondary scaffold-btn" onClick={onOpenScaffolder} title="Create 1-click workspace project">
+            <FolderPlus size={16} />
+            <span>+ New Project</span>
+          </button>
+        )}
         {onRefresh && (
           <button className="icon-btn" onClick={onRefresh} title="Refresh catalog">
             <RefreshCw size={18} />

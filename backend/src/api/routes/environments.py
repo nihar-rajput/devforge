@@ -10,8 +10,10 @@ from fastapi.responses import FileResponse
 
 from src.api.dependencies import get_environment_service, get_plugin_manager
 from src.api.schemas.bundle_schemas import ExportBundleRequest
+from src.api.schemas.scaffold_schemas import ScaffoldProjectRequest, ScaffoldProjectResponse
 from src.services.bundle_exporter_service import BundleExporterService
 from src.services.environment_service import EnvironmentService
+from src.services.scaffolder_service import ScaffolderService
 from src.package_manager.plugin_manager import PluginManager
 
 router = APIRouter(prefix="/environments", tags=["Environments"])
@@ -78,4 +80,19 @@ async def export_offline_bundle(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to create offline bundle: {str(e)}",
+        )
+
+
+@router.post("/scaffold", response_model=ScaffoldProjectResponse, status_code=status.HTTP_200_OK)
+async def scaffold_project(
+    request: ScaffoldProjectRequest,
+) -> ScaffoldProjectResponse:
+    """Scaffold a new project workspace folder with virtualenv, dependencies, starter code, and git init."""
+    scaffolder = ScaffolderService()
+    try:
+        return scaffolder.scaffold_project(request)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to scaffold project: {str(e)}",
         )

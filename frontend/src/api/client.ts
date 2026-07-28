@@ -146,4 +146,22 @@ export const api = {
     a.remove();
     window.URL.revokeObjectURL(url);
   },
+
+  // Workspace Project Scaffolding
+  scaffoldProject: (payload: {
+    template: string;
+    project_name: string;
+    target_directory?: string;
+    initialize_git?: boolean;
+  }) =>
+    request<{
+      success: boolean;
+      project_name: string;
+      project_path: string;
+      files_created: string[];
+      message: string;
+    }>("/environments/scaffold", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
