@@ -12,6 +12,7 @@ export interface Package {
   status: string;
   installed_version?: string;
   latest_version?: string;
+  available_versions?: string[];
   health_score: number;
   has_update: boolean;
   is_installed: boolean;

@@ -24,7 +24,17 @@ export const PackageCard: React.FC<PackageCardProps> = ({ pkg, onInstall, onUnin
         <div className="pkg-icon">{pkg.name.charAt(0)}</div>
         <div className="pkg-title">
           <h4>{pkg.name}</h4>
-          <span className="version">{pkg.latest_version ? `v${pkg.latest_version}` : "Latest"}</span>
+          {pkg.available_versions && pkg.available_versions.length > 1 ? (
+            <select className="version-select" defaultValue={pkg.latest_version || pkg.available_versions[0]}>
+              {pkg.available_versions.map((ver) => (
+                <option key={ver} value={ver}>
+                  v{ver}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span className="version">{pkg.latest_version ? `v${pkg.latest_version}` : "Latest"}</span>
+          )}
         </div>
       </div>
 
@@ -110,6 +120,16 @@ export const PackageCard: React.FC<PackageCardProps> = ({ pkg, onInstall, onUnin
         .pkg-title .version {
           font-size: 0.75rem;
           color: var(--text-muted);
+        }
+        .version-select {
+          background: var(--bg-dark);
+          color: var(--accent-cyan);
+          border: 1px solid var(--border-glass);
+          border-radius: var(--radius-sm);
+          font-size: 0.75rem;
+          padding: 0.1rem 0.4rem;
+          outline: none;
+          cursor: pointer;
         }
         .pkg-desc {
           font-size: 0.85rem;

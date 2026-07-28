@@ -18,6 +18,7 @@ class PackageResponse(BaseModel):
     status: str
     installed_version: Optional[str] = None
     latest_version: Optional[str] = None
+    available_versions: List[str] = Field(default_factory=list)
     health_score: int
     has_update: bool
     is_installed: bool

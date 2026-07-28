@@ -40,6 +40,13 @@ class PythonPlugin(BasePlugin):
     async def get_latest_version(self) -> Version:
         return Version.parse("3.12.2")
 
+    async def get_available_versions(self) -> list[Version]:
+        return [
+            Version.parse("3.12.2"),
+            Version.parse("3.11.8"),
+            Version.parse("3.10.13"),
+        ]
+
     async def get_download_info(self, version: Version) -> DownloadInfo:
         ver_str = str(version)
         url = f"https://www.python.org/ftp/python/{ver_str}/python-{ver_str}-amd64.exe"

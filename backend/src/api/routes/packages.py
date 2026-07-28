@@ -30,23 +30,28 @@ async def list_packages(
     else:
         packages = await package_service.get_all_packages()
 
-    return [
-        PackageResponse(
-            id=p.id.value,
-            name=p.metadata.name,
-            description=p.metadata.description,
-            category=p.metadata.category.value,
-            icon=p.metadata.icon,
-            website=p.metadata.website,
-            status=p.status.value,
-            installed_version=str(p.installed_version) if p.installed_version else None,
-            latest_version=str(p.latest_version) if p.latest_version else None,
-            health_score=p.health_score,
-            has_update=p.has_update,
-            is_installed=p.is_installed,
+    response_items = []
+    for p in packages:
+        plugin = package_service._plugin_manager.get_plugin(p.id)
+        avail = [str(v) for v in await plugin.get_available_versions()] if plugin else [str(p.latest_version)] if p.latest_version else []
+        response_items.append(
+            PackageResponse(
+                id=p.id.value,
+                name=p.metadata.name,
+                description=p.metadata.description,
+                category=p.metadata.category.value,
+                icon=p.metadata.icon,
+                website=p.metadata.website,
+                status=p.status.value,
+                installed_version=str(p.installed_version) if p.installed_version else None,
+                latest_version=str(p.latest_version) if p.latest_version else None,
+                available_versions=avail,
+                health_score=p.health_score,
+                has_update=p.has_update,
+                is_installed=p.is_installed,
+            )
         )
-        for p in packages
-    ]
+    return response_items
 
 
 @router.get("/{package_id}", response_model=PackageDetailResponse)

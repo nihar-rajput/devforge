@@ -77,6 +77,11 @@ class BasePlugin(ABC):
     async def get_latest_version(self) -> Version:
         """Fetch the latest available version from vendor API or website."""
 
+    async def get_available_versions(self) -> list[Version]:
+        """Return list of selectable versions available for installation (latest first)."""
+        latest = await self.get_latest_version()
+        return [latest]
+
     @abstractmethod
     async def get_download_info(self, version: Version) -> DownloadInfo:
         """Return download URL, expected checksum, file size for a version."""
