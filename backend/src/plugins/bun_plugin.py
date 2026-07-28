@@ -38,12 +38,11 @@ class BunPlugin(BasePlugin):
         return []
 
     async def get_latest_version(self) -> Version:
-        return Version.parse("1.0.26")
+        return Version.parse("1.1.0")
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
-        ver_str = str(version)
         return DownloadInfo(
-            url=f"https://github.com/oven-sh/bun/releases/download/bun-v{ver_str}/bun-windows-x64.zip",
+            url="https://github.com/oven-sh/bun/releases/download/bun-v1.1.0/bun-windows-x64.zip",
             file_name="bun-windows-x64.zip",
             file_size=FileSize.from_megabytes(48.0),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),

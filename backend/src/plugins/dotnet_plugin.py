@@ -42,7 +42,7 @@ class DotnetPlugin(BasePlugin):
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
         return DownloadInfo(
-            url="https://download.visualstudio.microsoft.com/download/pr/553cf016-d394-4360-bc0f-c3f25c7be932/49ebcddf54d4fdf3a4ffae566373b984/dotnet-sdk-8.0.200-win-x64.exe",
+            url="https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.200/dotnet-sdk-8.0.200-win-x64.exe",
             file_name="dotnet-sdk-8.0.200-win-x64.exe",
             file_size=FileSize.from_megabytes(210.0),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
