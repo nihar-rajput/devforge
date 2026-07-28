@@ -51,6 +51,7 @@ export const App: React.FC = () => {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         installedCount={health?.total_installed}
+        onBackToLanding={() => setViewMode("landing")}
       />
 
       <div className="main-content">
@@ -63,6 +64,7 @@ export const App: React.FC = () => {
             if (q && activeTab !== "catalog") setActiveTab("catalog");
           }}
           onRefresh={refetchHealth}
+          onBackToLanding={() => setViewMode("landing")}
         />
 
         {activeTab === "welcome" && (

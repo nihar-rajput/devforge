@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, Grid, CheckCircle, Activity, Save, Settings, Terminal } from "lucide-react";
+import { Sparkles, Grid, CheckCircle, Activity, Save, Terminal, Globe } from "lucide-react";
 
 export type NavTab = "welcome" | "catalog" | "installed" | "health" | "profiles";
 
@@ -7,9 +7,10 @@ interface SidebarProps {
   activeTab: NavTab;
   onTabChange: (tab: NavTab) => void;
   installedCount?: number;
+  onBackToLanding?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, installedCount = 0 }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, installedCount = 0, onBackToLanding }) => {
   const navItems = [
     { id: "welcome", label: "Stacks", icon: Sparkles },
     { id: "catalog", label: "Catalog", icon: Grid },
@@ -20,17 +21,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, instal
 
   return (
     <aside className="sidebar-container">
-      <div className="brand">
+      <div className="brand" onClick={onBackToLanding} style={{ cursor: onBackToLanding ? "pointer" : "default" }}>
         <div className="brand-icon">
           <Terminal size={22} color="#fff" />
         </div>
         <div className="brand-text">
           <h2>DevForge</h2>
-          <span className="version">v0.1.0</span>
+          <span className="version">v1.0.0</span>
         </div>
       </div>
 
       <nav className="nav-list">
+        {onBackToLanding && (
+          <button className="nav-item landing-item" onClick={onBackToLanding}>
+            <Globe size={18} color="var(--accent-cyan)" />
+            <span style={{ color: "var(--accent-cyan)", fontWeight: "700" }}>← Main Landing</span>
+          </button>
+        )}
+
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -122,6 +130,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, instal
           color: #fff;
           background: var(--gradient-brand);
           box-shadow: var(--shadow-glow);
+        }
+        .landing-item {
+          border: 1px solid hsla(190, 90%, 50%, 0.3);
+          background: hsla(190, 90%, 50%, 0.08);
+          margin-bottom: 0.5rem;
         }
         .count-pill {
           margin-left: auto;

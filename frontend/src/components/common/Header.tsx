@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, RefreshCw, FolderPlus } from "lucide-react";
+import { Search, RefreshCw, FolderPlus, Globe } from "lucide-react";
 import { HealthBadge } from "./HealthBadge";
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
   onSearchChange: (q: string) => void;
   onRefresh?: () => void;
   onOpenScaffolder?: () => void;
+  onBackToLanding?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   onRefresh,
   onOpenScaffolder,
+  onBackToLanding,
 }) => {
   return (
     <header className="header-container">
@@ -32,6 +34,12 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="header-actions">
+        {onBackToLanding && (
+          <button className="btn btn-secondary back-landing-btn" onClick={onBackToLanding} title="Back to main website landing page">
+            <Globe size={16} />
+            <span>🌐 Landing Page</span>
+          </button>
+        )}
         {onOpenScaffolder && (
           <button className="btn btn-secondary scaffold-btn" onClick={onOpenScaffolder} title="Create 1-click workspace project">
             <FolderPlus size={16} />
@@ -86,6 +94,19 @@ export const Header: React.FC<HeaderProps> = ({
           display: flex;
           align-items: center;
           gap: 1rem;
+        }
+        .back-landing-btn {
+          background: hsla(220, 20%, 20%, 0.8);
+          color: #fff;
+          border: 1px solid var(--border-glass);
+          padding: 0.5rem 0.9rem;
+          border-radius: var(--radius-sm);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.85rem;
+          font-weight: 600;
         }
         .icon-btn {
           background: var(--bg-dark);
