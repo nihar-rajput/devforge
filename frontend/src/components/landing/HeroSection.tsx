@@ -7,9 +7,9 @@ export const HeroSection: React.FC = () => {
   const cliCommand = "devforge export --packages python,git,vscode --output DevStack";
 
   const downloadUrls = {
-    windows: "https://github.com/nihar-rajput/devforge/releases/download/v1.0.0/DevForge-Windows-v1.0.0.zip",
-    macos: "https://github.com/nihar-rajput/devforge/releases/download/v1.0.0/DevForge-macOS-v1.0.0.dmg",
-    linux: "https://github.com/nihar-rajput/devforge/releases/download/v1.0.0/DevForge-Linux-v1.0.0.AppImage",
+    windows: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
+    macos: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
+    linux: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
   };
 
   const copyToClipboard = () => {
@@ -60,7 +60,7 @@ export const HeroSection: React.FC = () => {
           </button>
         </div>
 
-        <div className="download-action-row">
+        <div className="download-action-row" style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
           <a
             href={downloadUrls[selectedOS]}
             target="_blank"
@@ -68,7 +68,16 @@ export const HeroSection: React.FC = () => {
             className="primary-download-btn"
           >
             <span className="dl-icon">⬇</span>
-            Download DevForge for {selectedOS.toUpperCase()} (v1.0.0)
+            Download {selectedOS.toUpperCase()} Setup (v1.0.0)
+          </a>
+          <a
+            href="https://github.com/nihar-rajput/devforge/archive/refs/tags/v1.0.0.zip"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="primary-download-btn"
+            style={{ background: "hsla(220, 20%, 20%, 0.8)", border: "1px solid var(--border-glass)" }}
+          >
+            📦 Download Release .zip
           </a>
         </div>
       </div>
