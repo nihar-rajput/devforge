@@ -45,23 +45,25 @@ class SqlitePlugin(BasePlugin):
             url="https://www.sqlite.org/2024/sqlite-tools-win-x64-3450100.zip",
             file_name="sqlite-tools-win-x64-3450100.zip",
             file_size=FileSize.from_megabytes(2.5),
-            checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
+            checksum=Checksum.sha256("40424b3d8012786a2c497e695703a60499c35972a93ecf3db2ca3876fbaf224f"),
             installer_type=InstallerType.ZIP,
         )
 
     def get_install_command(self, installer_path: Path, options: InstallOptions) -> Command:
+        dest = Path.home() / ".devforge" / "sqlite"
         return Command(
             executable="powershell",
-            args=["-c", f"Expand-Archive -Path '{installer_path}' -DestinationPath 'C:\\Program Files\\SQLite' -Force"],
-            requires_admin=self.requires_admin,
+            args=["-c", f"New-Item -ItemType Directory -Force -Path '{dest}'; Expand-Archive -Path '{installer_path}' -DestinationPath '{dest}' -Force"],
+            requires_admin=False,
             timeout_seconds=60,
         )
 
     def get_uninstall_command(self) -> Command:
+        dest = Path.home() / ".devforge" / "sqlite"
         return Command(
             executable="powershell",
-            args=["-c", "Remove-Item -Recurse -Force 'C:\\Program Files\\SQLite'"],
-            requires_admin=self.requires_admin,
+            args=["-c", f"Remove-Item -Recurse -Force '{dest}'"],
+            requires_admin=False,
         )
 
     def get_verify_commands(self) -> list[VerifyCommand]:
@@ -74,14 +76,15 @@ class SqlitePlugin(BasePlugin):
         ]
 
     def get_path_entries(self) -> list[Path]:
-        return [Path("C:/Program Files/SQLite/sqlite-tools-win-x64-3450100")]
+        dest = Path.home() / ".devforge" / "sqlite" / "sqlite-tools-win-x64-3450100"
+        return [dest]
 
     def get_environment_variables(self) -> dict[str, str]:
         return {}
 
     @property
     def requires_admin(self) -> bool:
-        return True
+        return False
 
     @property
     def requires_reboot(self) -> bool:
