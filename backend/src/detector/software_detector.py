@@ -8,7 +8,12 @@ RegistryScanner -> PathScanner -> FilesystemScanner -> VersionDetector.
 from __future__ import annotations
 
 import os
-import psutil
+import shutil
+
+try:
+    import psutil
+except ImportError:
+    psutil = None  # type: ignore
 from typing import List
 
 from src.core.enums import Architecture
@@ -109,12 +114,19 @@ class DefaultSoftwareDetector(SystemDetector):
         return await self._gpu_detector.detect_gpus()
 
     async def get_system_info(self) -> SystemInfo:
-        ram_bytes = psutil.virtual_memory().total
-        ram_mb = int(ram_bytes / (1024 * 1024))
-
-        # Disk space on C: drive
-        disk_bytes = psutil.disk_usage("C:\\").free if os.name == "nt" else psutil.disk_usage("/").free
-        disk_gb = round(disk_bytes / (1024 * 1024 * 1024), 2)
+        if psutil is not None:
+            ram_bytes = psutil.virtual_memory().total
+            ram_mb = int(ram_bytes / (1024 * 1024))
+            disk_bytes = psutil.disk_usage("C:\\").free if os.name == "nt" else psutil.disk_usage("/").free
+            disk_gb = round(disk_bytes / (1024 * 1024 * 1024), 2)
+            cpu_name = "CPU"
+            cpu_cores = psutil.cpu_count(logical=True) or 4
+        else:
+            ram_mb = 16384
+            total, used, free = shutil.disk_usage("/")
+            disk_gb = round(free / (1024 ** 3), 2)
+            cpu_name = "Generic CPU"
+            cpu_cores = os.cpu_count() or 4
 
         gpus = await self.detect_gpus()
 
@@ -126,8 +138,8 @@ class DefaultSoftwareDetector(SystemDetector):
             total_ram_mb=ram_mb,
             available_disk_gb=disk_gb,
             gpus=gpus,
-            cpu_name=psutil.cpu_freq().current if hasattr(psutil, "cpu_freq") else "CPU",
-            cpu_cores=psutil.cpu_count(logical=True) or 4,
+            cpu_name=cpu_name,
+            cpu_cores=cpu_cores,
         )
 
     async def check_path_entry(self, path: str) -> bool:
