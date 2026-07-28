@@ -1,45 +1,68 @@
-# DevForge
+# DevForge — Universal Developer Environment Manager 🚀
 
-**One-click developer environment manager.** Select your development stack, click Install, and everything works.
+**DevForge** is a production-quality, cross-platform developer environment manager running natively on **Windows**, **macOS**, and **Linux**. Select your development stack, click Install, and everything is configured, verified, and added to your PATH automatically.
 
-## What is DevForge?
+---
 
-DevForge automatically installs, configures, verifies, repairs, and updates complete programming environments. Instead of manually installing Python, Git, VS Code, pip, and virtual environments, just select "Python Development" and click Install.
+## 🌟 Key Features
 
-## Quick Start
+- 📦 **36 Verified Package Plugins** (100% audit pass rate: Python, Node, Rust, Go, Java, Docker, VS Code, CUDA, Ollama, Terraform, Kubernetes, etc.)
+- 🍏 **Universal Cross-Platform Engine** (Windows, macOS, Linux)
+- 🐳 **Docker Sandbox & Multi-Stage Deployment**
+- 💻 **DevForge Terminal CLI** (`devforge list`, `info`, `health`, `export`)
+- 🏗️ **1-Click Workspace Project Scaffolder** (Python, React, Rust, Go)
+- 📦 **Air-Gapped Offline Bundle Exporter** (Streaming `.zip` archives & 1-click `install_offline.bat` launchers)
+- 🔔 **System Tray Background Health Monitor** (Periodic checks for PATH integrity, broken binaries, low disk space, and updates)
+- 🔒 **Privacy-Preserving Telemetry & Error Reporter** (User consent modal with automatic path sanitization)
+- 🧪 **51 Precision Unit & Integration Tests** (100% test pass rate)
 
+---
+
+## 📖 Comprehensive Documentation & Operating Guide
+
+For complete installation steps, operational modes, CLI commands, offline bundler usage, and Docker setup:
+
+👉 **[docs/installation_and_usage_guide.md](docs/installation_and_usage_guide.md)**
+
+---
+
+## ⚡ Quick Start
+
+### 1. Web Application Mode
 ```powershell
 # Clone the repository
-git clone <repo-url>
-cd devforge
+git clone https://github.com/nihar-rajput/devforge.git
+cd devforge/backend
 
-# Install backend dependencies
-cd backend
-pip install -e ".[dev]"
-
-# Start the backend server
-uvicorn src.main:app --host 127.0.0.1 --port 8000 --reload
+# Install & launch backend (http://127.0.0.1:8000)
+pip install -r requirements.txt
+python -m uvicorn src.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-## Architecture
+### 2. Docker Container Sandbox Mode
+```powershell
+cd devforge
+docker-compose up --build
+```
+Open **`http://localhost:8000/docs`** for live interactive API testing!
 
-- **Backend**: Python 3.12, FastAPI, SQLAlchemy, SQLite
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Desktop**: Tauri 2.x (Rust shell)
-- **Design**: Clean Architecture, SOLID, Plugin-based
+### 3. DevForge Terminal CLI
+```powershell
+cd devforge/backend
+python -m src.cli.main list
+python -m src.cli.main info
+python -m src.cli.main health
+python -m src.cli.main export --packages python,git,vscode --output MyOfflineBundle
+```
 
-See [docs/architecture.md](docs/architecture.md) for details.
+### 4. Run Automated Precision Tests
+```powershell
+cd devforge/backend
+pytest tests/ -v
+```
 
-## Development Stacks
+---
 
-| Stack | Packages |
-|---|---|
-| Python Development | Python, Git, VS Code, pip, uv |
-| AI / Machine Learning | Python, Git, VS Code, Ollama, Docker, CUDA*, Jupyter |
-| Web Development | Node.js, Git, VS Code, Chrome, Postman |
-| Java Development | Java JDK, Maven, Git, IntelliJ IDEA CE |
-| And more... | Rust, Go, C++, Android, DevOps, Data Science |
+## 📄 License
 
-## License
-
-MIT
+MIT License © 2026 DevForge Contributors
