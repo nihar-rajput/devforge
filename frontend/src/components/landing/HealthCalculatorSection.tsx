@@ -88,7 +88,7 @@ export const HealthCalculatorSection: React.FC = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justify: "space-between",
+                  justifyContent: "space-between",
                   padding: "0.8rem 1rem",
                   background: isChecked ? "hsla(265, 85%, 65%, 0.12)" : "var(--bg-card)",
                   border: `1px solid ${isChecked ? "var(--accent-purple)" : "var(--border-glass)"}`,
