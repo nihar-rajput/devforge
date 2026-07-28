@@ -1,4 +1,4 @@
-name: DevForge CI/CD Pipeline
+name: DevForge CI/CD & Automated Executable Builder
 
 on:
   push:
@@ -63,41 +63,88 @@ jobs:
           cd frontend
           npm run build
 
-  docker-build:
-    name: Docker Build Test
+  build-windows-exe:
+    name: Build Windows Standalone Executable (.exe)
     needs: [backend-test-and-audit, frontend-build]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker Image
-        uses: docker/build-push-action@v5
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: devforge:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          python-version: "3.11"
+
+      - name: Install PyInstaller and Backend Requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller -r backend/requirements.txt
+
+      - name: Build Standalone Backend Sidecar Binary
+        run: |
+          cd backend
+          pyinstaller --noconfirm --onedir --windowed --name devforge-backend src/main.py
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Frontend Dependencies and Build
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Set up Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Tauri Desktop Setup Wizard (.exe)
+        run: |
+          cd src-tauri
+          cargo build --release
+
+      - name: Create DevForge Standalone Package Artifact
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path "dist-windows" -Force
+          Copy-Item -Path "src-tauri/target/release/devforge.exe" -Destination "dist-windows/DevForge.exe" -Force
+          Copy-Item -Path "backend/dist/devforge-backend" -Destination "dist-windows/devforge-backend" -Recurse -Force
+
+      - name: Upload Windows Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DevForge-Windows-x64
+          path: dist-windows/
+          retention-days: 30
 
   create-release:
-    name: Create GitHub Release
+    name: Create GitHub Release with (.exe)
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [docker-build]
+    needs: [build-windows-exe]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create Release Notes
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: DevForge-Windows-x64
+          path: ./dist-windows
+
+      - name: Zip Release Bundle
+        run: |
+          cd dist-windows
+          zip -r ../DevForge-Windows-v${GITHUB_REF_NAME}.zip .
+
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v1
         with:
+          files: DevForge-Windows-*.zip
           draft: false
           prerelease: false
           generate_release_notes: true
