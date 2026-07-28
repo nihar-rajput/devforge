@@ -42,8 +42,8 @@ class NgrokPlugin(BasePlugin):
 
     async def get_download_info(self, version: Version) -> DownloadInfo:
         return DownloadInfo(
-            url="https://bin.equinox.io/c/boto5t26b4/ngrok-v3-stable-windows-amd64.zip",
-            file_name="ngrok-v3-stable-windows-amd64.zip",
+            url="https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip",
+            file_name="ngrok-stable-windows-amd64.zip",
             file_size=FileSize.from_megabytes(11.5),
             checksum=Checksum.sha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"),
             installer_type=InstallerType.ZIP,
