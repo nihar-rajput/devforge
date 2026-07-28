@@ -7,9 +7,9 @@ export const HeroSection: React.FC = () => {
   const cliCommand = "devforge export --packages python,git,vscode --output DevStack";
 
   const downloadUrls = {
-    windows: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
-    macos: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
-    linux: "https://github.com/nihar-rajput/devforge/releases/tag/v1.0.0",
+    windows: "https://github.com/nihar-rajput/devforge/releases/download/v1.0.0/DevForge-Windows-v1.0.0.zip",
+    macos: "https://github.com/nihar-rajput/devforge/releases/latest",
+    linux: "https://github.com/nihar-rajput/devforge/releases/latest",
   };
 
   const copyToClipboard = () => {
@@ -25,7 +25,7 @@ export const HeroSection: React.FC = () => {
       {/* Pill Badge */}
       <div className="hero-pill">
         <span className="pill-dot"></span>
-        <span className="pill-text">v1.0.0 Release Live • 36 Packages • 100% Air-Gapped Ready</span>
+        <span className="pill-text">v1.0.0 Production Release • 36 Packages • 100% Air-Gapped Ready</span>
       </div>
 
       {/* Hero Headline */}
@@ -44,7 +44,7 @@ export const HeroSection: React.FC = () => {
             className={`os-tab ${selectedOS === "windows" ? "active" : ""}`}
             onClick={() => setSelectedOS("windows")}
           >
-            🪟 Windows (.exe / .zip)
+            🪟 Windows (DevForge.exe)
           </button>
           <button
             className={`os-tab ${selectedOS === "macos" ? "active" : ""}`}
@@ -68,16 +68,16 @@ export const HeroSection: React.FC = () => {
             className="primary-download-btn"
           >
             <span className="dl-icon">⬇</span>
-            Download {selectedOS.toUpperCase()} Setup (v1.0.0)
+            Download {selectedOS.toUpperCase()} Setup Executable (v1.0.0)
           </a>
           <a
-            href="https://github.com/nihar-rajput/devforge/archive/refs/tags/v1.0.0.zip"
+            href="https://github.com/nihar-rajput/devforge/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="primary-download-btn"
             style={{ background: "hsla(220, 20%, 20%, 0.8)", border: "1px solid var(--border-glass)" }}
           >
-            📦 Download Release .zip
+            ⭐ View GitHub Releases
           </a>
         </div>
       </div>
