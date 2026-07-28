@@ -531,9 +531,15 @@ h1, h2, h3, h4 {
   align-items: center;
 }
 
+.pkg-icon {
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
+}
+
 .pkg-name {
   font-weight: 700;
   font-size: 1.1rem;
+  flex: 1;
 }
 
 .pkg-version {
@@ -582,4 +588,50 @@ h1, h2, h3, h4 {
 .footer-right a {
   color: var(--text-secondary);
   text-decoration: none;
+}
+
+/* Custom Builder Page */
+.custom-builder-page {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-y: auto;
+}
+
+.custom-builder-container {
+  max-width: 1100px;
+  margin: 2rem auto 4rem auto;
+  padding: 0 1.5rem;
+}
+
+.builder-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.search-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select-action-btns {
+  display: flex;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
+
+.output-field-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-count-badge {
+  background: hsla(265, 85%, 65%, 0.15);
+  border: 1px solid hsla(265, 85%, 65%, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  color: var(--accent-cyan);
 }

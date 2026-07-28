@@ -3,6 +3,7 @@ import "./styles/global.css";
 import { Sidebar, NavTab } from "./components/common/Sidebar";
 import { Header } from "./components/common/Header";
 import { LandingPage } from "./pages/LandingPage";
+import { CustomBundlePage } from "./pages/CustomBundlePage";
 import { WelcomePage } from "./pages/WelcomePage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { InstalledPage } from "./pages/InstalledPage";
@@ -14,7 +15,7 @@ import { useSystemHealth } from "./hooks/useSystemHealth";
 import { api } from "./api/client";
 
 export const App: React.FC = () => {
-  const [viewMode, setViewMode] = useState<"landing" | "app">("landing");
+  const [viewMode, setViewMode] = useState<"landing" | "custom" | "app">("landing");
   const [activeTab, setActiveTab] = useState<NavTab>("welcome");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -32,7 +33,16 @@ export const App: React.FC = () => {
   };
 
   if (viewMode === "landing") {
-    return <LandingPage onOpenApp={() => setViewMode("app")} />;
+    return (
+      <LandingPage
+        onOpenApp={() => setViewMode("app")}
+        onOpenCustomBuilder={() => setViewMode("custom")}
+      />
+    );
+  }
+
+  if (viewMode === "custom") {
+    return <CustomBundlePage onBackToLanding={() => setViewMode("landing")} />;
   }
 
   return (

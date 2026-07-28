@@ -1,24 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { api, Package } from "../../api/client";
+import { STATIC_36_CATALOG } from "../../data/staticCatalog";
 
 export const PackageCatalogSection: React.FC = () => {
   const [packages, setPackages] = useState<Package[]>([]);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCatalog = async () => {
       try {
         const catFilter = activeCategory === "all" ? undefined : activeCategory;
         const data = await api.getPackages(catFilter, search);
-        setPackages(data);
+        if (data && data.length > 0) {
+          setPackages(data);
+          return;
+        }
       } catch (err) {
-        console.error("Failed to load catalog:", err);
-      } finally {
-        setLoading(false);
+        // Fallback to static catalog on static hosts like Vercel
       }
+
+      // Filter static dataset
+      let filtered = STATIC_36_CATALOG;
+      if (activeCategory !== "all") {
+        filtered = filtered.filter(
+          (p) => p.category.toLowerCase() === activeCategory.toLowerCase()
+        );
+      }
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        filtered = filtered.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q) ||
+            p.id.toLowerCase().includes(q)
+        );
+      }
+      setPackages(filtered);
     };
+
     fetchCatalog();
   }, [search, activeCategory]);
 
@@ -68,32 +88,29 @@ export const PackageCatalogSection: React.FC = () => {
       </div>
 
       {/* Catalog Grid */}
-      {loading ? (
-        <div className="catalog-loading">Loading 36 verified plugins...</div>
-      ) : (
-        <div className="catalog-grid">
-          {packages.map((pkg) => (
-            <div key={pkg.id} className="catalog-card">
-              <div className="card-top">
-                <span className="pkg-name">{pkg.name}</span>
-                <span className="pkg-version">v{pkg.latest_version}</span>
-              </div>
-              <span className="pkg-category">{pkg.category.toUpperCase()}</span>
-              <p className="pkg-desc">{pkg.description}</p>
-              {pkg.website && (
-                <a
-                  href={pkg.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pkg-link"
-                >
-                  Official Site ↗
-                </a>
-              )}
+      <div className="catalog-grid">
+        {packages.map((pkg) => (
+          <div key={pkg.id} className="catalog-card">
+            <div className="card-top">
+              <span className="pkg-icon">{pkg.icon || "📦"}</span>
+              <span className="pkg-name">{pkg.name}</span>
+              <span className="pkg-version">v{pkg.latest_version}</span>
             </div>
-          ))}
-        </div>
-      )}
+            <span className="pkg-category">{pkg.category.toUpperCase()}</span>
+            <p className="pkg-desc">{pkg.description}</p>
+            {pkg.website && (
+              <a
+                href={pkg.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pkg-link"
+              >
+                Official Site ↗
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

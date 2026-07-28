@@ -6,9 +6,10 @@ import { AdBanner } from "../components/landing/AdBanner";
 
 interface LandingPageProps {
   onOpenApp?: () => void;
+  onOpenCustomBuilder?: () => void;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp, onOpenCustomBuilder }) => {
   return (
     <div className="landing-page-container">
       {/* Top Header Navigation */}
@@ -19,6 +20,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenApp }) => {
           <span className="logo-badge">v1.0.0</span>
         </div>
         <div className="nav-links">
+          {onOpenCustomBuilder && (
+            <button className="chip-btn" onClick={onOpenCustomBuilder} style={{ borderColor: "var(--accent-purple)", color: "#fff" }}>
+              🛠️ Custom 36-Tool Builder
+            </button>
+          )}
           <a href="#wizard" className="nav-link">Stack Wizard</a>
           <a href="#catalog" className="nav-link">36 Tools Catalog</a>
           <a href="https://github.com/nihar-rajput/devforge" target="_blank" rel="noopener noreferrer" className="nav-link">GitHub</a>
